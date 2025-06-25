@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:3000/api/tasks';
+const API_BASE = `${process.env.REACT_APP_API_BASE}/api/tasks`;
+const API_ROOT = process.env.REACT_APP_API_BASE;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -9,7 +10,7 @@ const getAuthHeaders = () => {
 
 export const login = async (username, password) => {
   try {
-    const res = await axios.post('http://localhost:3000/api/login', { username, password });
+    const res = await axios.post(`${API_ROOT}/api/login`, { username, password });
     return res.data;
   } catch (e) {
     throw new Error(e.response?.data?.message || 'Login failed');
@@ -18,7 +19,7 @@ export const login = async (username, password) => {
 
 export const register = async (username, password, role) => {
   try {
-    const res = await axios.post('http://localhost:3000/api/register', { username, password, role });
+    const res = await axios.post(`${API_ROOT}/api/register`, { username, password, role });
     return res.data;
   } catch (e) {
     throw new Error(e.response?.data?.message || 'Registration failed');
@@ -62,7 +63,7 @@ export const deleteTask = async (id) => {
 
 export const getAssignmentSuggestion = async (task) => {
   try {
-    const res = await axios.post('http://localhost:3000/api/ai/assignment', task, { headers: getAuthHeaders() });
+    const res = await axios.post(`${API_ROOT}/api/ai/assignment`, task, { headers: getAuthHeaders() });
     return res.data;
   } catch (e) {
     throw new Error(e.response?.data?.message || 'Failed to get assignment suggestion');
@@ -71,7 +72,7 @@ export const getAssignmentSuggestion = async (task) => {
 
 export const getPrioritySuggestion = async (tasks) => {
   try {
-    const res = await axios.post('http://localhost:3000/api/ai/priority', { tasks }, { headers: getAuthHeaders() });
+    const res = await axios.post(`${API_ROOT}/api/ai/priority`, { tasks }, { headers: getAuthHeaders() });
     return res.data;
   } catch (e) {
     throw new Error(e.response?.data?.message || 'Failed to get priority suggestion');
@@ -80,7 +81,7 @@ export const getPrioritySuggestion = async (tasks) => {
 
 export const getSummary = async (userId) => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/ai/summary/${userId}`, { headers: getAuthHeaders() });
+    const res = await axios.get(`${API_ROOT}/api/ai/summary/${userId}`, { headers: getAuthHeaders() });
     return res.data;
   } catch (e) {
     throw new Error(e.response?.data?.message || 'Failed to get summary');
